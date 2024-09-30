@@ -8,6 +8,8 @@
 #include<stdlib.h>
 #include<unistd.h>
 #include<stdbool.h>
+#include<string.h>
+
 #define BOARDSIZE 3
 
 
@@ -74,12 +76,22 @@ bool oWin(int lastMove){
 
 /*
  * Simple helper method, should be removed later on
+ *
+ * return:
+ *      1: win
+ *      0: draw
+ *      -1:continue
  */
-bool validateWin(char currP, int lastMove){
+int validate(char currP, int lastMove){
+    char* draw = strchr(boardState, '-');
+    if(draw == NULL){
+        return 0;
+    }
+
     if(currP == p1){
-        return xWin(lastMove);
+        return (xWin(lastMove))? 1:-1;
     }else{
-        return oWin(lastMove);
+        return (oWin(lastMove))? 1:-1;
     }
 }
 
@@ -167,7 +179,7 @@ void showInstructions(){
     printf("In order to make a selection choose one of the available squares(1-9)\n");
     printf("\t\t\t|1|2|3|\n\t\t\t|4|5|6|\n\t\t\t|7|8|9|\n");
     printf("The game will start in 1 second\n");
-    sleep(1);
+    //sleep(1);
     #ifdef _WIN32
         system("clear");
     #endif
@@ -207,16 +219,27 @@ void playGame(){
         int input;
         while ((getchar()) != '\n');
         input = getchar();
+
         if(input == '0'){
             break;
+
         }else{
             currP = (currP == p2)? p1:p2 ;
             makeMove(currP, input);
-            if(validateWin(currP, input) == true){
+            int res = validate(currP, input);
+
+            if(res == 1) {
                 system("clear");
                 printBoard();
                 printf("%c WINS!!!\n", currP);
                 break;
+
+            }else if(res == 0){
+                system("clear");
+                printBoard();
+                printf("DRAW!!\n");
+                break;
+
             }
         }
     }
