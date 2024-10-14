@@ -1,34 +1,39 @@
-#Compiler
-
+# Compiler and flags
 CC = gcc
-
-#flags
 CFLAGS = -Wall -Werror -g
 
-#out file
-TARGET = tic_tac_toe
+# Directories
+SRC_DIR = src
+TEST_DIR = tests
 
-#source files
-SRCS = tictactoe.c map.c
+# Target programs
+TARGET = my_program
+TEST_TARGET = test_runner
 
-#object files
-OBJS = $(SRCS:.c=.o)
+# Source files
+MAIN_SRCS = main.c $(SRC_DIR)/map.c
+TEST_SRCS = $(SRC_DIR)/map.c $(TEST_DIR)/test_map.c
 
-# Default target, to compile the program
+# Default target - Compile the main program
 all: $(TARGET)
 
-# Link the object files to create the executable
-$(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS)
+# Rule to compile the main program (no tests involved)
+$(TARGET): $(MAIN_SRCS)
+	$(CC) $(CFLAGS) -o $(TARGET) $(MAIN_SRCS)
 
-# Rule to compile .c files into .o files
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
-
-# Clean up compiled files
-clean:
-	rm -f $(OBJS) $(TARGET)
-
-# Run the program
+# Target for running the main program
 run: $(TARGET)
 	./$(TARGET)
+
+# Target for compiling and running the tests
+test: $(TEST_TARGET)
+	./$(TEST_TARGET)
+
+# Rule to compile the tests (only builds the test executable)
+$(TEST_TARGET): $(TEST_SRCS)
+	$(CC) $(CFLAGS) -o $(TEST_TARGET) $(TEST_SRCS)
+
+# Clean target to remove compiled binaries
+clean:
+	rm -f $(TARGET) $(TEST_TARGET)
+
