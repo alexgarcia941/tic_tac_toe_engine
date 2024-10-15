@@ -1,17 +1,18 @@
 # Compiler and flags
 CC = gcc
-CFLAGS = -Wall -Werror -g
+CFLAGS = -Wall -Werror -g -I/opt/homebrew/include
+LDFLAGS = -L/opt/homebrew/lib -lcriterion -pthread
 
 # Directories
 SRC_DIR = src
 TEST_DIR = tests
 
 # Target programs
-TARGET = my_program
+TARGET = main_program
 TEST_TARGET = test_runner
 
 # Source files
-MAIN_SRCS = main.c $(SRC_DIR)/map.c
+MAIN_SRCS = tictactoe.c $(SRC_DIR)/map.c
 TEST_SRCS = $(SRC_DIR)/map.c $(TEST_DIR)/test_map.c
 
 # Default target - Compile the main program
@@ -31,8 +32,7 @@ test: $(TEST_TARGET)
 
 # Rule to compile the tests (only builds the test executable)
 $(TEST_TARGET): $(TEST_SRCS)
-	$(CC) $(CFLAGS) -o $(TEST_TARGET) $(TEST_SRCS)
-
+	$(CC) $(CFLAGS) -o $(TEST_TARGET) $(TEST_SRCS) $(LDFLAGS) 
 # Clean target to remove compiled binaries
 clean:
 	rm -f $(TARGET) $(TEST_TARGET)
