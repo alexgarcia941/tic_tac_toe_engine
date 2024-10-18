@@ -20,7 +20,7 @@ struct hash_map {
 #define INITIAL_CAPACITY 16
 #define MAX_CAPACITY 100
 
-hash_map* ht_create(void) {
+hash_map* hm_create(void) {
     //allocate sapce for hash_map data structure
     hash_map* table = malloc(sizeof(hash_map));
     if(table == NULL){
@@ -39,7 +39,7 @@ hash_map* ht_create(void) {
     return table;
 }
 
-void hash_map_destroy(hash_map* map) {
+void hm_destroy(hash_map* map) {
     //free allocated keys
     for (size_t i =0; i < map->capacity; i++){
         free((void*)map->entries[i].key);
