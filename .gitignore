@@ -3,3 +3,7 @@ tic_tac_toe
 *.dSYM 
 test_runner
 my_program
+*.json
+*.dySM
+main_program
+.*

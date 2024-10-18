@@ -12,7 +12,7 @@ TARGET = main_program
 TEST_TARGET = test_runner
 
 # Source files
-MAIN_SRCS = tictactoe.c $(SRC_DIR)/map.c
+MAIN_SRCS = $(SRC_DIR)/tictactoe.c $(SRC_DIR)/map.c
 TEST_SRCS = $(SRC_DIR)/map.c $(TEST_DIR)/test_map.c
 
 # Default target - Compile the main program
